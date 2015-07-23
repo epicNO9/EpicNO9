@@ -14,20 +14,27 @@ PImage pan_red;
 PImage garlic_class_image;
 PImage chocolate_class_image;
 PImage eggs_class_image;
+PImage steam;
 int pan_blueX = -130;
 int blue_bookX = -700;
 int pan_redX = 694;
 int red_bookX = 645+700;
-
+int lastTimeCheck;
+int timeIntervalFlag = 1000;
 Garlic BlueGarlic;
 Garlic RedGarlic;
 Chocolate BlueChoco;
 Chocolate RedChoco;
 Eggs BlueEggs;
 Eggs RedEggs;
+int time_to_run = 120;
+float steamY = -200;
 
-boolean[] keyArray = new boolean[20]; // {`, 1, 2, 3, 8, 9, 0, -, w, i, a, s, d,f, j, k, l, ;, x, .}
+boolean[] keyArray = new boolean[20]; // {`, 1, 2, 3, 8, 9, 0, -, q, w, o, p, a, s, d, k, l, ;, x, .}
+boolean[] actionArray = new boolean[10];
+boolean[] ingredientsArray = new boolean[10];
 void setup () {
+  frameRate(60);
   size(1024, 768);
   background = loadImage("background.jpg");
   tables = loadImage("tables.png");
@@ -49,12 +56,14 @@ void setup () {
   chocolate_class_image = loadImage ("foods/chocolate_fullcolor.png");
   eggs_class_image = loadImage ("foods/eggs_fullcolor.png");
   chocolate.resize(100, 90);
+  steam = loadImage ("steam.png");
   BlueGarlic = new Garlic(100, 400);
   BlueChoco = new Chocolate(100, 400);
   BlueEggs = new Eggs(100, 400);
   RedGarlic = new Garlic(800, 400);
   RedChoco = new Chocolate(800, 400); 
   RedEggs = new Eggs(800, 400);
+  lastTimeCheck = millis();
 }
 
 void draw () {
@@ -87,13 +96,23 @@ void draw () {
   image(chocolate, width-195, height-85);
   
   textSize(30);
-  text("1", 65, height-10);
-  text("2", 165, height-10);
-  text("3", 265, height-10);
-  text("8", width-225, height-10);
-  text("9", width-125, height-10);
-  text("0", width-25, height-10);
+  textAlign(CENTER);
+  text("1", 75, height-10);
+  text("2", 175, height-10);
+  text("3", 275, height-10);
+  text("8", width-215, height-10);
+  text("9", width-115, height-10);
+  text("0", width-15, height-10);
   noCursor();
+  
+  if( millis() > lastTimeCheck + timeIntervalFlag) {
+    lastTimeCheck = millis();
+    int index = int(random(sayings.length));
+    textSize(16);
+    text(sayings[index], width/2, height/3+70);
+    
+  }
+  
   
   if(keyArray[1]) {
     BlueGarlic.display();
@@ -113,10 +132,21 @@ void draw () {
   if(keyArray[6]) {
     RedEggs.display();
   }
+  if(ingredientsArray[0]) {
+    rect(100, 400, 200, 200);
+      
+  }
+  if(ingredientsArray[1]) {
+    rect(100, 200, 50, 50);
+    println("SZZZZZZZZZZ");
+    steamY = steamY - 1;
+    image(steam, 100, steamY);
+  }
+  throw_ingredients();
 }
 
 
-void keyPressed () {
+void keyPressed () {  
      if(key == '`'){
        disbluebook();
      }
@@ -124,6 +154,7 @@ void keyPressed () {
        keyArray[1] = true;
        keyArray[2] = false;
        keyArray[3] = false;
+     
      }
      if(key == '2') {
        keyArray[2] = true;
@@ -152,6 +183,80 @@ void keyPressed () {
      }
      if(key == '-') {
       disredbook();
+     }
+     if(key == 'w') {
+      keyArray[7] = true;
+      if (keyArray[1]) {
+      do_w_key();
+      }
+     }
+     if(key == 'a') {
+      keyArray[11] = true;
+      do_a_key ();
+     }
+     if(key == 's') {
+      keyArray[9] = true;
+     }
+     if(key == 'd') {
+      keyArray[10] = true;
+     }
+     if(key == 'x') {
+      keyArray[18] =true;
+      if(actionArray[1]) {
+        do_w_key();
+     }
+     }
+     if(key == 'q') {
+      keyArray[8] = true;
+     }
 }
+void do_w_key() {
+  if(actionArray[2]) {
+   ingredientsArray[0] = true; 
+  }
+  
+  for(int i = 0; i < time_to_run; i++) {
+    if(keyArray[9] && keyArray[18]) {
+      reset_p1_keys();
+      set_p1_ingredient_slice();
+      break;
+    }
+    if (i == time_to_run - 1) {
+      reset_p1_keys();
+    
+    }
+  }
+   
 }
 
+void reset_p1_keys() {
+    keyArray[7] = false;
+    keyArray[9] = false;
+    keyArray[10] = false;
+    keyArray[18] = false;
+    keyArray[11] = false;
+}
+
+void throw_ingredients() {
+  if(ingredientsArray[0] && keyArray[8]){
+    ingredientsArray[0] = false;
+    ingredientsArray[1] = true;
+    keyArray[8] = false;
+  }
+  if(ingredientsArray[2] && keyArray[8]) {
+   ingredientsArray[2] =false;
+   ingredientsArray[3] = true; 
+  }
+}
+void do_a_key () {
+  for(int i =0; i < time_to_run; i++) {
+    if(keyArray[9] && keyArray[10]) {
+      reset_p1_keys();
+      set_p1_ingredient_dice();
+      break;
+    }
+      if(i == time_to_run - 1) {
+        reset_p1_keys();
+      }
+  }
+}
