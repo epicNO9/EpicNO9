@@ -31,8 +31,8 @@ int time_to_run = 120;
 float steamY = -200;
 
 boolean[] keyArray = new boolean[20]; // {`, 1, 2, 3, 8, 9, 0, -, q, w, o, p, a, s, d, k, l, ;, x, .}
-boolean[] actionArray = new boolean[10];
-boolean[] ingredientsArray = new boolean[10];
+boolean[] actionArray = new boolean[20];
+boolean[] ingredientsArray = new boolean[20];
 void setup () {
   frameRate(60);
   size(1024, 768);
@@ -142,6 +142,24 @@ void draw () {
     steamY = steamY - 1;
     image(steam, 100, steamY);
   }
+  if(ingredientsArray[2]) {
+    ellipse(200, 500, 100, 100);
+  }
+  if(ingredientsArray[3]) {
+    ellipse(125, 225, 50, 50);
+    println("SzzzzzzzZZZZZ");
+    steamY = steamY - 1;
+    image(steam, 100, steamY);
+  }
+  if(ingredientsArray[4]) {
+    triangle(200, 500, 150, 500, 175, 600);
+  }
+  if(ingredientsArray[5]) {
+    triangle(125, 225, 100, 225, 112, 275);
+    println("sizz.");
+    steamY = steamY - 1;
+    image(steam, 100, steamY);
+  }
   throw_ingredients();
 }
 
@@ -188,17 +206,27 @@ void keyPressed () {
       keyArray[7] = true;
       if (keyArray[1]) {
       do_w_key();
+      } else if (keyArray[3]) {
+      do_chop_key() ;
       }
      }
      if(key == 'a') {
       keyArray[11] = true;
-      do_a_key ();
+      if(keyArray[2]){
+        do_a_key ();
+      }
      }
      if(key == 's') {
       keyArray[9] = true;
+      if(ActionArray[9]){
+      do_chop_key();
+      }
      }
      if(key == 'd') {
       keyArray[10] = true;
+      if(actionArray[4]) {
+        do_a_key();
+      }
      }
      if(key == 'x') {
       keyArray[18] =true;
@@ -244,8 +272,14 @@ void throw_ingredients() {
     keyArray[8] = false;
   }
   if(ingredientsArray[2] && keyArray[8]) {
-   ingredientsArray[2] =false;
+   ingredientsArray[2] = false;
    ingredientsArray[3] = true; 
+   keyArray[8] = false;
+  }
+  if(ingredientsArray[4] && keyArray[8]) {
+   ingredientsArray[4] = false;
+   ingredientsArray[5] = true;
+   keyArray[8] = false;
   }
 }
 void do_a_key () {
@@ -258,5 +292,17 @@ void do_a_key () {
       if(i == time_to_run - 1) {
         reset_p1_keys();
       }
+  }
+}
+void do_chop_key () {
+  for(int i = 0; i < time_to_run; i++) {
+    if(keyArray[9]) {
+      reset_p1_keys();
+      set_p1_ingredient_chop ();
+      break;
+    }
+     if(i == time_to_run - 1) {
+       reset_p1_keys();
+     }
   }
 }

@@ -19,7 +19,23 @@ void set_p1_ingredient_dice() {
     } else if (actionArray[3] && actionArray[4]) {
       actionArray[5] = true;
       println("the chocolate is diced");
-      keyArray[4] = false;
+      keyArray[2] = false;
       ingredientsArray[2] = true;
     }
+}
+void set_p1_ingredient_chop() {
+   if (!actionArray[6]) {
+     actionArray[6] = true;
+   } else if (actionArray[6] && !actionArray[7]) {
+     actionArray[7] = true;
+   } else if (actionArray[6] && actionArray[7] && !actionArray[8]) {
+     actionArray[8] = true;
+   } else if (actionArray[6] && actionArray[7] && actionArray[8] && !actionArray[9]) {
+     actionArray[9] = true;
+   } else if (actionArray[6] && actionArray[7] && actionArray[8] && actionArray[9]) {   
+     actionArray[10] = true;
+     println("the eggs somehow got chopped.");
+     keyArray[3] = false;
+     ingredientsArray[4] = true;
+   }
 }
