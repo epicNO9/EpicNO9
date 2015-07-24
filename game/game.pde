@@ -15,6 +15,8 @@ PImage garlic_class_image;
 PImage chocolate_class_image;
 PImage eggs_class_image;
 PImage steam;
+PImage sm_key_blue;
+PImage sm_key_red;
 int pan_blueX = -130;
 int blue_bookX = -700;
 int pan_redX = 694;
@@ -55,6 +57,9 @@ void setup () {
   garlic_class_image = loadImage ("foods/garlic_fullcolor.png");
   chocolate_class_image = loadImage ("foods/chocolate_fullcolor.png");
   eggs_class_image = loadImage ("foods/eggs_fullcolor.png");
+  sm_key_blue = loadImage ("key_blue.png");
+  sm_key_red = loadImage ("key_red.png");
+  sm_key_blue.resize(50, 50);
   chocolate.resize(100, 90);
   steam = loadImage ("steam.png");
   BlueGarlic = new Garlic(100, 400);
@@ -68,11 +73,10 @@ void setup () {
 
 void draw () {
   image(background, 0,0);
-  rotate(-0.05);
-  image(book, blue_bookX, height/8-70);
+  
   rotate(.1);
   image(book, red_bookX, height/10-100);
-  rotate(-0.05);
+  rotate(-0.1);
   image(pan_blue, pan_blueX , height/4+20);
   image(pan_red, pan_redX, height/4+20);
 
@@ -139,8 +143,8 @@ void draw () {
   if(ingredientsArray[1]) {
     rect(100, 200, 50, 50);
     println("SZZZZZZZZZZ");
-    steamY = steamY - 1;
-    image(steam, 100, steamY);
+    //steamY = steamY - 1;
+    //image(steam, 100, steamY);
   }
   if(ingredientsArray[2]) {
     ellipse(200, 500, 100, 100);
@@ -148,8 +152,8 @@ void draw () {
   if(ingredientsArray[3]) {
     ellipse(125, 225, 50, 50);
     println("SzzzzzzzZZZZZ");
-    steamY = steamY - 1;
-    image(steam, 100, steamY);
+    //steamY = steamY - 1;
+    //image(steam, 100, steamY);
   }
   if(ingredientsArray[4]) {
     triangle(200, 500, 150, 500, 175, 600);
@@ -157,10 +161,22 @@ void draw () {
   if(ingredientsArray[5]) {
     triangle(125, 225, 100, 225, 112, 275);
     println("sizz.");
-    steamY = steamY - 1;
-    image(steam, 100, steamY);
+    
   }
+  rotate(-0.05);
+  image(book, blue_bookX, height/8-70);
+  rotate(0.05);
   throw_ingredients();
+  cookbook();
+  
+  if(ingredientsArray[1] && ingredientsArray[3] && ingredientsArray[5]) {
+    textSize(32);
+    text("PLAYER ONE: YOU ARE NOW A MEMBER OF THE ILLUMINATI", width/2, height/2);
+    all_keys_off();
+  }
+  if(keyArray[3]) {
+    keyArray[18] = false;
+  }  
 }
 
 
@@ -218,7 +234,7 @@ void keyPressed () {
      }
      if(key == 's') {
       keyArray[9] = true;
-      if(ActionArray[9]){
+      if(actionArray[9] && keyArray[3]){
       do_chop_key();
       }
      }
@@ -263,22 +279,29 @@ void reset_p1_keys() {
     keyArray[10] = false;
     keyArray[18] = false;
     keyArray[11] = false;
+    keyArray[8] = false;
 }
 
 void throw_ingredients() {
   if(ingredientsArray[0] && keyArray[8]){
     ingredientsArray[0] = false;
     ingredientsArray[1] = true;
+    steamY = steamY - 1;
+    image(steam, 100, steamY);
     keyArray[8] = false;
   }
   if(ingredientsArray[2] && keyArray[8]) {
    ingredientsArray[2] = false;
    ingredientsArray[3] = true; 
+   steamY = steamY - 1;
+   image(steam, 100, steamY);
    keyArray[8] = false;
   }
   if(ingredientsArray[4] && keyArray[8]) {
    ingredientsArray[4] = false;
    ingredientsArray[5] = true;
+   steamY = steamY - 1;
+   image(steam, 100, steamY);
    keyArray[8] = false;
   }
 }
@@ -305,4 +328,26 @@ void do_chop_key () {
        reset_p1_keys();
      }
   }
+}
+void all_keys_off () {
+  keyArray[0] = false; 
+  keyArray[1] = false;
+  keyArray[2] = false;
+  keyArray[3] = false;
+  keyArray[4] = false;
+  keyArray[5] = false;
+  keyArray[6] = false;
+  keyArray[7] = false;
+  keyArray[8] = false;
+  keyArray[9] = false;
+  keyArray[10] = false;
+  keyArray[11] = false;
+  keyArray[12] = false;
+  keyArray[13] = false;
+  keyArray[14] = false;
+  keyArray[15] = false;
+  keyArray[16] = false;
+  keyArray[17] = false;
+  keyArray[18] = false;
+  keyArray[19] = false;
 }

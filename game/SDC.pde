@@ -8,6 +8,10 @@ void set_p1_ingredient_slice() {
       println("Garlic is sliced to perfection");
       keyArray[1] = false;
       ingredientsArray[0] = true;
+      keyArray[18] = false;
+      actionArray[0] = false;
+      actionArray[1] = false;
+      actionArray[2] = false;
     }
    
 }
@@ -21,6 +25,9 @@ void set_p1_ingredient_dice() {
       println("the chocolate is diced");
       keyArray[2] = false;
       ingredientsArray[2] = true;
+      actionArray[3] = false;
+      actionArray[4] = false;
+      actionArray[5] = false;
     }
 }
 void set_p1_ingredient_chop() {
@@ -37,5 +44,10 @@ void set_p1_ingredient_chop() {
      println("the eggs somehow got chopped.");
      keyArray[3] = false;
      ingredientsArray[4] = true;
+     actionArray[6] = false;
+     actionArray[7] = false;
+     actionArray[8] = false;
+     actionArray[9] = false;
+     actionArray[10] = false;
    }
 }
